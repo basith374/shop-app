@@ -1,38 +1,405 @@
 .App {
-  text-align: center;
+  height: 100%;
 }
-
-.App-logo {
-  height: 10vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 20vh;
+/* header */
+.ph {
+  height: 60px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-bottom: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.ph-l {
+  font-size: 24px;
+  flex: 1;
+}
+.ph-l > div {
+  line-height: 60px;
+  padding: 0 15px;
+}
+.c-b {
+  background: transparent;
+  border: none;
+  /* background: #000; */
+  height: 40px;
+  width: 40px;
+  margin-top: 10px;
+  margin-right: 10px;
+  position: relative;
+}
+.c-b span {
+  background: #ff6b6b;
+  color: #fff;
+  border-radius: 4px;
+  padding: 0 3px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+/* home categories */
+.cat {
+  margin-bottom: 15px;
+}
+.cat-c {
+  overflow: hidden;
+  background: #fff;
+  border-radius: 8px;
+  width: 180px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+}
+.cat-c + .cat-c {
+  margin-left: 15px
+}
+.cat-t {
+  color: #999;
+  text-transform: uppercase;
+  padding: 0 15px;
+}
+.cat-bc {
+  overflow-x: scroll;
+}
+.cat-bc::-webkit-scrollbar {
+  appearance: none;
+}
+.cat-b {
+  width: max-content;
+  padding: 15px;
+  display: flex;
+}
+.cc-h {
+  overflow: hidden;
+  height: 100px;
+}
+.cc-h img {
+  width: 100%;
+}
+.cc-b {
+  padding: 10px 15px 15px;
+}
+/* information/ads */
+.a-h {
+  padding: 15px;
+}
+.a-c {
+  background: #ff7675;
+  color: #fff;
+  border-radius: 8px;
+  height: 100px;
+  padding: 15px;
+}
+/* banners */
+.b-h {
+  overflow-x: scroll;
+  margin-bottom: 15px;
+}
+.b-h::-webkit-scrollbar {
+  appearance: none;
+}
+.b-c {
+  width: max-content;
+  padding: 15px;
+  display: flex;
+}
+.b-p {
+  width: 300px;
+  height: 180px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.b-p img {
+  width: 100%;
+}
+.b-p + .b-p {
+  margin-left: 20px;
+}
+/* cart */
+.c-c {
+  height: 100%;
+  animation: slide-up 200ms;
+  padding-top: 75px;
+}
+.c-c.c {
+  padding-top: 0;
+}
+@keyframes slide-up {
+  from { transform: translateY(20px);}
+}
+.cs-h {
+  padding: 15px;
+}
+.cs-h button {
+  font-size: 30px;
+  background: transparent;
+  border: none;
+}
+.cs-h img {
+  height: 24px;
+  margin-top: 8px;
+}
+.cs-l {
+  padding: 15px 0;
+}
+/* used in product aswell */
+.cs-b {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #fff;
+  box-shadow: 0 0px 10px rgba(0, 0, 0, .2);
+}
+.cs-t {
+  display: flex;
+  padding: 20px;
+}
+.cs-tl {
+  flex: 1;
+}
+.cs-o button {
+  padding: 15px;
+  width: 100%;
+  background: #74b9ff;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+}
+.cs-o {
+  padding: 0 20px 20px;
+}
+.cs-i {
+  margin-bottom: 15px;
+  display: flex;
+  padding: 0 25px;
+}
+.cs-f {
+  flex: 1;
+  padding: 0 15px;
+}
+.cs-p {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.cs-q {
+  display: flex;
+}
+.cs-q button {
+  background: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+}
+.cs-q div {
+  padding: 0 10px;
+  line-height: 30px;
+}
+/* category */
+.ct-c {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.pc-c {
+  width: 150px;
+  height: 260px;
+  padding: 15px;
+  border-radius: 8px;
+  background: #f3f3f3;
+  margin: 15px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.pc-j {
+  padding: 5px;
+}
+.pc-i {
+  height: 120px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+@media only screen and (min-width: 375px) {
+  .pc-c {
+    width: 155px;
+    height: 250px;
   }
-  to {
-    transform: rotate(360deg);
+}
+@media only screen and (min-width: 455px) {
+  .pc-c {
+    width: 197px;
+    height: 260px;
   }
+  .pc-i {
+    height: 150px;
+  }
+}
+.pc-i img {
+  height: 100%;
+}
+.pc-t {
+  display: flex;
+}
+.pc-tl {
+  flex: 1;
+}
+.pc-tb {
+  color: #999;
+}
+/* product */
+.pp-c {
+  padding: 15px;
+}
+.pp-x {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.pp-i {
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  height: 210px;
+}
+.pp-i img {
+  width: 100%;
+}
+.pp-v {
+  padding: 15px;
+}
+.pp-t {
+  display: flex;
+}
+.pp-l {
+  flex: 1;
+}
+.pp-o {
+  overflow-x: scroll;
+}
+.pp-q {
+  width: max-content;
+  padding: 10px;
+}
+.pp-z {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.pp-z.s {
+  border-color: #74b9ff;
+  background: #74b9ff;
+  color: #fff;
+  transition: 150ms background;
+}
+.pp-z + .pp-z {
+  margin-left: 10px;
+}
+.pp-d {
+  padding: 15px;
+  color: #555;
+}
+/* checkout */
+.ad-c {
+  padding: 15px;
+}
+.ad-a {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 2px solid #fff;
+  position: relative;
+}
+.ad-a img {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+}
+.ad-a.s {
+  border-color: #74b9ff;
+}
+/* search */
+.ss-c {
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+.ss-h {
+  padding: 15px;
+  animation: add-padd 150ms;
+}
+@keyframes add-padd {
+  from {padding: 0}
+}
+.ss-i {
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+  position: relative;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: add-radius 150ms;
+}
+@keyframes add-radius {
+  from {border-radius: 0;}
+}
+.ss-i input {
+  border: none;
+  width: 100%;
+  line-height: 60px;
+  padding: 0 15px;
+  outline: none;
+}
+.ss-i img {
+  width: 30px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.ss-t {
+  display: flex;
+  margin-bottom: 15px;
+}
+.ss-p {
+  height: 60px;
+  width: 60px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-right: 15px;
+}
+.ss-p img {
+  width: 100%;
+}
+.ss-r {
+  padding: 0 15px;
+}
+/* image */
+.img-c {
+  position: relative;
+  height: 100%;
+}
+.img-p {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  animation: 2s radiate infinite;
+}
+@keyframes radiate {
+  0% { background: #777; }
+  50% { background: #999; }
+  100% { background: #777; }
 }
