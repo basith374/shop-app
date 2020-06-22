@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Image from './Image';
 
 const CartItem = () => {
+    const [count, setCount] = useState(1);
+    const increment = () => setCount(count + 1);
+    const decrement = () => {
+        if(count > 0) setCount(count - 1);
+    }
     return <div className="cs-i">
         <div className="cs-p"><Image src="https://picsum.photos/200/200" alt="product" /></div>
         <div className="cs-f">
@@ -11,9 +16,9 @@ const CartItem = () => {
         </div>
         <div>
             <div className="cs-q">
-                <button>-</button>
-                <div>01</div>
-                <button>+</button>
+                <button onClick={decrement}>-</button>
+                <div>{count.toString().padStart(2, '0')}</div>
+                <button onClick={increment}>+</button>
             </div>
         </div>
     </div>
