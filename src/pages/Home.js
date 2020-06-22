@@ -20,7 +20,7 @@ function CategorySlide(props) {
     <div className="cat-t">{props.category.name}</div>
     <div className="cat-bc">
       <div className="cat-b">
-        {props.category.items.map(c => <CategoryCard category={c} />)}
+        {props.category.items.map(c => <CategoryCard category={c} key={c.name} />)}
       </div>
     </div>
   </div>
