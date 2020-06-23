@@ -36,6 +36,16 @@ function Banner() {
   </div>
 }
 
+function Text(props) {
+  const style = {}
+  if(props.content.color) style.background = {}
+  return <div className="a-h">
+    <div className="a-c" style={style}>
+      {props.content.text}
+    </div>
+  </div>
+}
+
 function Home() {
   let cats = [
     {
@@ -97,12 +107,25 @@ function Home() {
       ]
     },
   ]
+  const renderSchema = (s) => {
+    if(s.type === 'text') return <Text content={s} />
+    if(s.type === 'banner') return <Banner content={s} />
+    if(s.type === 'slide') return <Slide content={s} />
+    return null;
+  }
+  const schema = [];
   return (
     <div className="c-c">
+      {schema.map(renderSchema)}
       <div className="a-h">
         <div className="a-c">
           <div>Delivery from 9:00 to 7:00</div>
           <div>Anywhere in Thalassery</div>
+        </div>
+      </div>
+      <div className="b-c">
+        <div className="b-p">
+          <Image src="https://picsum.photos/300/200" alt="banner" />
         </div>
       </div>
       <div className="b-h">

@@ -1,5 +1,8 @@
 .App {
   height: 100%;
+  overflow-y: scroll;
+  background: #fff;
+  scrollbar-width: none;
 }
 /* header */
 .ph {
@@ -15,7 +18,7 @@
   z-index: 1;
 }
 .ph-l {
-  font-size: 24px;
+  font-size: 18px;
   flex: 1;
 }
 .ph-l > div {
@@ -62,6 +65,7 @@
 }
 .cat-bc {
   overflow-x: scroll;
+  scrollbar-width: none;
 }
 .cat-bc::-webkit-scrollbar {
   appearance: none;
@@ -96,20 +100,26 @@
 .b-h {
   overflow-x: scroll;
   margin-bottom: 15px;
+  scrollbar-width: none;
 }
 .b-h::-webkit-scrollbar {
   appearance: none;
 }
 .b-c {
-  width: max-content;
   padding: 15px;
+}
+.b-h .b-c {
+  width: max-content;
   display: flex;
 }
 .b-p {
-  width: 300px;
-  height: 180px;
   border-radius: 8px;
   overflow: hidden;
+  height: 200px;
+}
+.b-h .b-p {
+  width: 300px;
+  height: 180px;
 }
 .b-p img {
   width: 100%;
@@ -119,6 +129,7 @@
 }
 /* cart */
 .c-c {
+  background: #fff;
   height: 100%;
   animation: slide-up 200ms;
   padding-top: 75px;
