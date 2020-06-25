@@ -43,6 +43,7 @@
   position: absolute;
   top: 0;
   right: 0;
+  width: 20px;
 }
 /* home categories */
 .cat {
@@ -155,6 +156,9 @@
 .cs-l {
   padding: 15px 0;
 }
+.cs-e .emp {
+  padding: 6rem 0;
+}
 /* used in product aswell */
 .cs-b {
   position: absolute;
@@ -163,10 +167,11 @@
   left: 0;
   background: #fff;
   box-shadow: 0 0px 10px rgba(0, 0, 0, .2);
+  padding-top: 20px;
 }
 .cs-t {
   display: flex;
-  padding: 20px;
+  padding: 0 20px 20px;
 }
 .cs-tl {
   flex: 1;
@@ -377,6 +382,9 @@
   padding: 0 15px;
   outline: none;
 }
+.ss-i input::-webkit-search-cancel-button {
+  display: none;
+}
 .ss-i img {
   width: 30px;
   position: absolute;
@@ -399,6 +407,9 @@
 }
 .ss-r {
   padding: 0 15px;
+}
+.ss-r .emp {
+  padding: 2rem 0;
 }
 /* image */
 .img-c {
@@ -438,6 +449,9 @@
 }
 .emp-i.err img {
   filter: opacity(.6);
+}
+.emp-t {
+  text-align: center;
 }
 /* loading */
 .lds {

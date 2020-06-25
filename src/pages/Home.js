@@ -6,12 +6,12 @@ import { gql } from 'apollo-boost';
 import Error from './Error';
 import Loading from './Loading';
 
-const followLink = (history, content) => {
+export const followLink = (history, content) => {
   const { link } = content;
   const { type } = link;
-  if (type === 'search') history.push('/search/' + link.word);
   if (type === 'category') history.push('/category/' + link.id);
   if (type === 'product') history.push('/product/' + link.id);
+  if (type === 'search') history.push('/search/' + link.word);
 }
 
 function BannerImage(props) {

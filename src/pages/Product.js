@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Image from './Image';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import Image from './Image';
 import EmptyPage from './EmptyPage';
 import Error from './Error';
 import Loading from './Loading';
-import { useLocation } from 'react-router-dom';
+import { addToCart, increaseQty, decreaseQty } from '../store/actions';
 
 const GET_PRODUCT = gql`
     query($id: Int!) {
@@ -25,24 +28,28 @@ const GET_PRODUCT = gql`
     }
 `
 
-const Product = () => {
+const Product = (props) => {
+    const { cart } = props;
     const location = useLocation();
     const id = parseInt(location.pathname.split('/')[2], 10);
     const { error, loading, data } = useQuery(GET_PRODUCT, {
         variables: { id }
     })
-    const [count, setCount] = useState(1);
     const [variant, setVariant] = useState();
+    const qty = variant ? _.get(_.find(cart, ['id', variant.id]), 'qty', 0) : 0;
     useEffect(() => {
         if(data && data.product) {
             setVariant(data.product.variants[0]);
         }
     }, [data]);
-    const reduceCount = () => {
-        if(count > 1) setCount(count - 1);
+    const decreaseCount = () => {
+        props.decreaseQty(variant);
     }
     const increaseCount = () => {
-        if(count < 100) setCount(count + 1);
+        props.increaseQty(variant);
+    }
+    const onAdd = () => {
+        props.addToCart(data.product, variant);
     }
     const render = () => {
         if(!data.product) return <EmptyPage msg="Couldn't find that one :(" />
@@ -78,18 +85,18 @@ const Product = () => {
                 </div>
             </div>
             <div className="cs-b">
-                <div className="cs-t">
+                {variant && qty > 0 && <div className="cs-t">
                     <div className="cs-tl">
                         <div className="cs-q">
-                            <button onClick={reduceCount}>-</button>
-                            <div>{count.toString().padStart(2, '0')}</div>
+                            <button onClick={decreaseCount}>-</button>
+                            <div>{qty.toString().padStart(2, '0')}</div>
                             <button onClick={increaseCount}>+</button>
                         </div>
                     </div>
-                    <div>Total: ₹ {variant ? variant.price * count: 0}</div>
-                </div>
+                    <div>Total: ₹ {variant ? variant.price * qty: 0}</div>
+                </div>}
                 <div className="cs-o">
-                    <button>Add to cart</button>
+                    <button onClick={onAdd}>Add to cart</button>
                 </div>
             </div>
         </div>
@@ -99,4 +106,16 @@ const Product = () => {
     return render()
 }
 
-export default Product;
+const mapState = store => {
+    return {
+        cart: store.cart,
+    }
+}
+
+const actionCreators = {
+    addToCart,
+    increaseQty,
+    decreaseQty,
+}
+
+export default connect(mapState, actionCreators)(Product);

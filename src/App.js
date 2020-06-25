@@ -4,8 +4,10 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient, InMemoryCache } from 'apollo-boost';
 import { createHttpLink } from "apollo-link-http";
 import { AnimatePresence } from 'framer-motion';
+import { Provider } from 'react-redux';
 import './App.css';
 
+import store from './store';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Category from './pages/Category';
@@ -22,33 +24,35 @@ const client = new ApolloClient({
 function App() {
   return (
     <div className="App">
-      <ApolloProvider client={client}>
-        <AnimatePresence>
-          <Router>
-            <Header />
-            <Switch>
-              <Route path="/search">
-                <Search />
-              </Route>
-              <Route path="/checkout">
-                <Checkout />
-              </Route>
-              <Route path="/product">
-                <Product />
-              </Route>
-              <Route path="/category">
-                <Category />
-              </Route>
-              <Route path="/cart">
-                <Cart />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Router>
-        </AnimatePresence>
-      </ApolloProvider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <AnimatePresence>
+            <Router>
+              <Header />
+              <Switch>
+                <Route path="/search">
+                  <Search />
+                </Route>
+                <Route path="/checkout">
+                  <Checkout />
+                </Route>
+                <Route path="/product">
+                  <Product />
+                </Route>
+                <Route path="/category">
+                  <Category />
+                </Route>
+                <Route path="/cart">
+                  <Cart />
+                </Route>
+                <Route path="/">
+                  <Home />
+                </Route>
+              </Switch>
+            </Router>
+          </AnimatePresence>
+        </ApolloProvider>
+      </Provider>
     </div>
   );
 }
