@@ -1,143 +1,99 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
 import Image from './Image';
+import { gql } from 'apollo-boost';
+import Error from './Error';
+import Loading from './Loading';
 
-function CategoryCard(props) {
+const followLink = (history, content) => {
+  const { link } = content;
+  const { type } = link;
+  if (type === 'search') history.push('/search/' + link.word);
+  if (type === 'category') history.push('/category/' + link.id);
+  if (type === 'product') history.push('/product/' + link.id);
+}
+
+function BannerImage(props) {
   const history = useHistory();
-  const openProduct = () => {
-    history.push('/product')
-  }
-  return <div className="cat-c" onClick={openProduct}>
-    <div className="cc-h">
-      <Image src={'https://res.cloudinary.com/bluroe-labs/image/upload/shop-images/' + props.category.file} alt="product" />
-    </div>
-    <div className="cc-b">{props.category.name}</div>
+  const { content } = props;
+  return <div className="b-p" onClick={() => followLink(history, content)}>
+    <Image src={content.image} alt={content.name} />
   </div>
 }
 
-function CategorySlide(props) {
-  return <div className="cat">
-    <div className="cat-t">{props.category.name}</div>
-    <div className="cat-bc">
-      <div className="cat-b">
-        {props.category.items.map(c => <CategoryCard category={c} key={c.name} />)}
-      </div>
-    </div>
-  </div>
-}
-
-function Banner() {
-  const history = useHistory();
-  const showCategory = () => {
-    history.push('/category');
-  }
-  return <div className="b-p" onClick={showCategory}>
-    <Image src="https://picsum.photos/300/200" alt="banner" />
+function Banner(props) {
+  return <div className="b-c">
+    <BannerImage content={props.content} />
   </div>
 }
 
 function Text(props) {
-  const style = {}
-  if(props.content.color) style.background = {}
+  const { background, color } = props.content;
   return <div className="a-h">
-    <div className="a-c" style={style}>
-      {props.content.text}
+    <div className="a-c" style={{ background, color }}>
+      {props.content.text.split('\n').map((t, i) => <div key={i}>{t}</div>)}
+    </div>
+  </div>
+}
+
+function BannerSlide(props) {
+  return <div className="b-h">
+    <div className="b-c">
+      {props.content.items.map((c, i) => <BannerImage key={i} content={c} />)}
+    </div>
+  </div>
+}
+
+function Card(props) {
+  const history = useHistory();
+  const { content } = props
+  return <div className="cat-c" onClick={() => followLink(history, content)}>
+    <div className="cc-h">
+      <Image src={content.image} alt={content.name} />
+    </div>
+    <div className="cc-b">{content.name}</div>
+  </div>
+}
+
+function CardSlide(props) {
+  return <div className="cat">
+    <div className="cat-t">{props.content.name}</div>
+    <div className="cat-bc">
+      <div className="cat-b">
+        {props.content.items.map((c, i) => <Card content={c} key={i} />)}
+      </div>
     </div>
   </div>
 }
 
 function Home() {
-  let cats = [
-    {
-      name: 'Snacks',
-      items: [
-        {name: 'Pizza', file: 'pizza.jpg'},
-        {name: 'Burger', file: 'burger.jpg'},
-        {name: 'Shawarma', file: 'shawarma.jpeg'},
-      ]
-    },
-    {
-      name: 'Desserts',
-      items: [
-        {name: 'Unnakaya', file: 'unnakaya.jpg'},
-        {name: 'Halwa', file: 'Gajar-Ka-Halwa.jpg'},
-      ]
-    },
-    {
-      name: 'Cakes',
-      items: [
-        {name: 'Chocolate', file: 'butter-scotch.jpg'},
-        {name: 'Butterscotch', file: 'butter-scotch2.jpg'},
-        {name: 'Almond', file: 'almond-cake.jpg'},
-        {name: 'Red Velvet', file: 'red-velvet.jpg'},
-      ]
-    },
-    {
-      name: 'Cooking',
-      items: [
-        {name: 'Sugar', file: 'sugar.jpg'},
-        {name: 'Pepper', file: 'black-pepper.png'},
-        {name: 'Atta', file: 'atta.jpeg'},
-        {name: 'Spices', file: 'eastern-sambar.png'},
-      ]
-    },
-    {
-      name: 'Home Essentials',
-      items: [
-        {name: 'Toothpaste', file: 'colgate.jpg'},
-        {name: 'Detergents', file: 'tide.jpg'},
-        {name: 'Soap', file: 'lifebuoy.jpg'},
-      ]
-    },
-    {
-      name: 'Vegetables',
-      items: [
-        {name: 'Potatoes', file: 'potatoes.jpg'},
-        {name: 'Gourds', file: 'gourd.jpg'},
-        {name: 'Tomatoes', file: 'tomato.jpg'},
-        {name: 'Garlic', file: 'garlic.jpg'},
-      ]
-    },
-    {
-      name: 'Fruits',
-      items: [
-        {name: 'Apples', file: 'apples.jpg'},
-        {name: 'Oranges', file: 'orange.jpg'},
-        {name: 'Watermelon', file: 'watermelon.jpg'},
-      ]
-    },
-  ]
-  const renderSchema = (s) => {
-    if(s.type === 'text') return <Text content={s} />
-    if(s.type === 'banner') return <Banner content={s} />
-    if(s.type === 'slide') return <Slide content={s} />
+  const { error, loading, data } = useQuery(gql`
+    query {
+      setting(key: "Homepage")
+    }
+  `)
+  const [schema, setSchema] = useState([]);
+  const renderSchema = (s, i) => {
+    const props = { content: s, key: i }
+    if (s.type === 'text') return <Text {...props} />
+    if (s.type === 'banner') return <Banner {...props} />
+    if (s.type === 'bannerslide') return <BannerSlide {...props} />
+    if (s.type === 'cardslide') return <CardSlide {...props} />
     return null;
   }
-  const schema = [];
+  useEffect(() => {
+    if (data && data.setting) {
+      try {
+        setSchema(JSON.parse(data.setting))
+      } catch (err) { }
+    }
+  }, [data]);
+  if(error) return <Error msg="Something went wrong" />
+  if(loading) return <Loading />
   return (
     <div className="c-c">
       {schema.map(renderSchema)}
-      <div className="a-h">
-        <div className="a-c">
-          <div>Delivery from 9:00 to 7:00</div>
-          <div>Anywhere in Thalassery</div>
-        </div>
-      </div>
-      <div className="b-c">
-        <div className="b-p">
-          <Image src="https://picsum.photos/300/200" alt="banner" />
-        </div>
-      </div>
-      <div className="b-h">
-        <div className="b-c">
-          <Banner />
-          <Banner />
-          <Banner />
-        </div>
-      </div>
-      <div className="cats">
-        {cats.map(c => <CategorySlide key={c.name} category={c} />)}
-      </div>
     </div>
   )
 }
