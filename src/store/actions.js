@@ -25,3 +25,9 @@ export function decreaseQty(variant) {
         data: variant.id
     }
 }
+
+export function clearCart() {
+    return {
+        type: 'CLEAR_CART'
+    }
+}

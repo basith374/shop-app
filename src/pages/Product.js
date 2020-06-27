@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { motion  } from 'framer-motion';
 import _ from 'lodash';
 import Image from './Image';
 import EmptyPage from './EmptyPage';
 import Error from './Error';
 import Loading from './Loading';
 import { addToCart, increaseQty, decreaseQty } from '../store/actions';
+import { pageAnimation } from '../config';
 
 const GET_PRODUCT = gql`
     query($id: Int!) {
@@ -30,13 +32,16 @@ const GET_PRODUCT = gql`
 
 const Product = (props) => {
     const { cart } = props;
-    const location = useLocation();
-    const id = parseInt(location.pathname.split('/')[2], 10);
+    const history = useHistory();
+    const params = useParams();
+    const id = parseInt(params.id, 10);
     const { error, loading, data } = useQuery(GET_PRODUCT, {
         variables: { id }
     })
     const [variant, setVariant] = useState();
-    const qty = variant ? _.get(_.find(cart, ['id', variant.id]), 'qty', 0) : 0;
+    const cartItem = _.find(cart, ['id', _.get(variant, 'id')]);
+    const inCart = cartItem !== undefined;
+    const qty = variant ? _.get(cartItem, 'qty', 0) : 0;
     useEffect(() => {
         if(data && data.product) {
             setVariant(data.product.variants[0]);
@@ -51,12 +56,15 @@ const Product = (props) => {
     const onAdd = () => {
         props.addToCart(data.product, variant);
     }
+    const gotoCart = () => {
+        history.push('/cart');
+    }
     const render = () => {
         if(!data.product) return <EmptyPage msg="Couldn't find that one :(" />
         const product = data.product
         const image = product.images[0];
         const singleVariant = product.variants.length === 1;
-        return <div className="c-c">
+        return <motion.div className="c-c" {...pageAnimation}>
             <div className="pp-c">
                 <div className="pp-x">{data.product.name}</div>
                 <div className="pp-i">
@@ -96,10 +104,11 @@ const Product = (props) => {
                     <div>Total: ₹ {variant ? variant.price * qty: 0}</div>
                 </div>}
                 <div className="cs-o">
-                    <button onClick={onAdd}>Add to cart</button>
+                    {inCart && <button onClick={gotoCart}>View Cart</button>}
+                    {!inCart && <button onClick={onAdd}>Add to cart</button>}
                 </div>
             </div>
-        </div>
+        </motion.div>
     }
     if(error) return <Error msg="Something went wrong" />
     if(loading) return <Loading />

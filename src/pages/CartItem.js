@@ -29,7 +29,7 @@ const CartItem = (props) => {
 }
 
 const mapState = store => {
-
+    return {}
 }
 
 const actionCreators = {

@@ -5,6 +5,9 @@ import Image from './Image';
 import { gql } from 'apollo-boost';
 import Error from './Error';
 import Loading from './Loading';
+import EmptyPage from './EmptyPage';
+import { motion } from 'framer-motion';
+import { staggerAnimation } from '../config';
 
 export const followLink = (history, content) => {
   const { link } = content;
@@ -23,26 +26,26 @@ function BannerImage(props) {
 }
 
 function Banner(props) {
-  return <div className="b-c">
+  return <motion.div {...staggerAnimation.child} className="b-c">
     <BannerImage content={props.content} />
-  </div>
+  </motion.div>
 }
 
 function Text(props) {
   const { background, color } = props.content;
-  return <div className="a-h">
+  return <motion.div {...staggerAnimation.child} className="a-h">
     <div className="a-c" style={{ background, color }}>
       {props.content.text.split('\n').map((t, i) => <div key={i}>{t}</div>)}
     </div>
-  </div>
+  </motion.div>
 }
 
 function BannerSlide(props) {
-  return <div className="b-h">
+  return <motion.div {...staggerAnimation.child} className="b-h">
     <div className="b-c">
       {props.content.items.map((c, i) => <BannerImage key={i} content={c} />)}
     </div>
-  </div>
+  </motion.div>
 }
 
 function Card(props) {
@@ -57,14 +60,14 @@ function Card(props) {
 }
 
 function CardSlide(props) {
-  return <div className="cat">
+  return <motion.div {...staggerAnimation.child} className="cat">
     <div className="cat-t">{props.content.name}</div>
     <div className="cat-bc">
       <div className="cat-b">
         {props.content.items.map((c, i) => <Card content={c} key={i} />)}
       </div>
     </div>
-  </div>
+  </motion.div>
 }
 
 function Home() {
@@ -91,11 +94,11 @@ function Home() {
   }, [data]);
   if(error) return <Error msg="Something went wrong" />
   if(loading) return <Loading />
-  return (
-    <div className="c-c">
+  if(schema.length > 0) return <motion.div className="c-c"  {...staggerAnimation.container}>
+      {!data.setting && <EmptyPage msg="Nothing here" />}
       {schema.map(renderSchema)}
-    </div>
-  )
+    </motion.div>
+  return null;
 }
 
 export default Home;

@@ -1,3 +1,6 @@
+/* 
+common margins
+ */
 .App {
   height: 100%;
   overflow-y: scroll;
@@ -46,6 +49,7 @@
   width: 20px;
 }
 /* home categories */
+/* margins */
 .cat {
   margin-bottom: 15px;
 }
@@ -132,7 +136,7 @@
 .c-c {
   background: #fff;
   height: 100%;
-  animation: slide-up 200ms;
+  /* animation: slide-up 200ms; */
   padding-top: 75px;
 }
 .c-c.c {
@@ -216,6 +220,8 @@
 .cs-q div {
   padding: 0 10px;
   line-height: 30px;
+  width: 40px;
+  text-align: center;
 }
 /* category */
 .ct-c {
@@ -270,7 +276,6 @@
   color: #999;
 }
 /* product */
-/* slider */
 .pp-i {
   padding: 20px;
 }
@@ -282,7 +287,6 @@
   border-radius: 8px;
   height: 280px;
 }
-/* end slider */
 .pp-x {
   font-size: 24px;
   text-align: center;
@@ -328,6 +332,15 @@
 .ad-c {
   padding: 15px;
 }
+.ad-t {
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.ad-d {
+  background: #74b9ff;
+  border-radius: 8px;
+}
 .ad-a {
   background: #fff;
   border-radius: 8px;
@@ -336,6 +349,7 @@
   padding: 15px;
   border: 2px solid #fff;
   position: relative;
+  height: 114px;
 }
 .ad-a img {
   position: absolute;
@@ -345,6 +359,54 @@
 }
 .ad-a.s {
   border-color: #74b9ff;
+}
+.ad-a.b {
+  height: 114px;
+  border: 2px dashed #ccc;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
+}
+/* addresses */
+/* margins */
+.sect {
+  padding: 20px 0;
+}
+.sect.hr {
+  border-top: 1px solid #ccc;
+}
+/* margins */
+.grp {
+  padding: 15px 20px;
+  /* margin-bottom: 15px; */
+}
+.ttx {
+  font-size: 20px;
+  color: #555;
+  /* text-align: center; */
+  padding: 0 20px;
+}
+.lbl {
+  color: #555;
+  margin-bottom: 10px;
+}
+.ax-c input, .ax-c button {
+  width: 100%;
+  padding: 15px;
+  border-radius: 8px;
+}
+.ax-c input {
+  border: 2px solid #ccc;
+}
+.ax-c button {
+  background: #74b9ff;
+  color: #fff;
+  border: none;
+}
+.ax-c button.red {
+  background: #ff6b6b;
 }
 /* search */
 .ss-c {
@@ -358,7 +420,6 @@
 }
 .ss-h {
   padding: 15px;
-  animation: add-padd 150ms;
 }
 @keyframes add-padd {
   from {padding: 0}
@@ -453,6 +514,9 @@
 .emp-t {
   text-align: center;
 }
+.emp-t.x {
+  font-size: 24px;
+}
 /* loading */
 .lds {
   display: flex;
@@ -487,4 +551,16 @@
   50% { 
     transform: scale(1.0);
   }
+}
+/* login */
+.lg-c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.lg-t {
+  margin-bottom: 1rem;
+  font-size: 24px;
+  text-align: center;
 }

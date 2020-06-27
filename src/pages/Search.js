@@ -1,13 +1,16 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { motion } from 'framer-motion';
 import EmptyPage from './EmptyPage';
 import Loading from './Loading';
 import Error from './Error';
+import { staggerAnimation } from '../config';
 
 const Search = () => {
-    const location = useLocation();
+    const params = useParams();
+    const { str } = params;
     const history = useHistory();
     const { error, loading, data } = useQuery(gql`
         query($str: String) {
@@ -19,13 +22,11 @@ const Search = () => {
             }
         }
     `, {
-        variables: {
-            str: location.pathname.split('/').slice(2).join('')
-        }
+        variables: { str }
     })
     const render = () => {
         if(data.search.length === 0) return <EmptyPage msg={"Coudn't find that :("} />
-        return <div className="ct-c">
+        return <motion.div {...staggerAnimation.container} className="ct-c">
             {data.search.map(s => {
                 let details = '';
                 let price = '';
@@ -33,7 +34,7 @@ const Search = () => {
                     const id = s.type === 'product' ? s.id : s.name;
                     history.push('/' + s.type + '/' + id);
                 }
-                return <div className="pc-c" onClick={onClick}>
+                return <motion.div {...staggerAnimation.child} className="pc-c" onClick={onClick}>
                     <div className="pc-j">
                         <div className="pc-i">
                             <img src={s.image} alt={s.name} />
@@ -48,9 +49,9 @@ const Search = () => {
                             <div className="pc-b">{price}</div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             })}
-        </div>
+        </motion.div>
     }
     if(error) return <Error msg="Something went wrong" />
     if(loading) return <Loading />

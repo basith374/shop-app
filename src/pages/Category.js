@@ -1,11 +1,13 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Image from './Image';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { motion } from 'framer-motion';
 import EmptyPage from './EmptyPage';
 import Error from './Error';
 import Loading from './Loading';
+import { staggerAnimation } from '../config';
 
 const ProductCard = (props) => {
     const { product } = props;
@@ -13,7 +15,7 @@ const ProductCard = (props) => {
     const { variants } = product;
     const history = useHistory();
     const select = () => history.push('/product/' + product.id);
-    return <div className="pc-c" onClick={select}>
+    return <motion.div {...staggerAnimation.child} className="pc-c" onClick={select}>
         <div className="pc-j">
             <div className="pc-i">
                 <Image src={images[0].filename} alt={product.name} />
@@ -28,7 +30,7 @@ const ProductCard = (props) => {
                 <div className="pc-b">₹ {variants[0].price}</div>
             </div>
         </div>
-    </div>
+    </motion.div>
 }
 
 const GET_CATEGORY = gql`
@@ -53,8 +55,8 @@ const GET_CATEGORY = gql`
 `
 
 const Category = () => {
-    const location = useLocation();
-    const name = location.pathname.split('/')[2];
+    const params = useParams();
+    const { name } = params;
     const { error, loading, data } = useQuery(GET_CATEGORY, {
         variables: { name }
     });
@@ -62,13 +64,13 @@ const Category = () => {
         if(!data.category) return <EmptyPage msg="We couldn't find that one :(" />
         const { products } = data.category;
         if(products.length === 0) return <EmptyPage msg="No products found :(" />
-        return <div className="c-c">
+        return <motion.div {...staggerAnimation.container} className="c-c">
             <div className="ct-c">
                 {products.map(p => {
                     return <ProductCard key={p.id} product={p} />
                 })}
             </div>
-        </div>
+        </motion.div>
     }
     if(error) return <Error msg="Something went wrong" />
     if(loading) return <Loading />

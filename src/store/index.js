@@ -2,14 +2,14 @@ import { combineReducers, createStore } from "redux";
 import _ from 'lodash';
 
 const cart = (state = [], action) => {
-    if(action.type === 'ADD_TO_CART') {
+    if (action.type === 'ADD_TO_CART') {
         const idx = _.findIndex(state, ['id', action.data.id]);
         const item = state[idx];
-        if(idx === -1) return [
+        if (idx === -1) return [
             ...state,
             action.data,
         ]
-        if(item.qty >= 99) return state;
+        if (item.qty >= 99) return state;
         return [
             ...state.slice(0, idx),
             {
@@ -19,10 +19,10 @@ const cart = (state = [], action) => {
             ...state.slice(idx + 1)
         ]
     }
-    if(action.type === 'INCREASE_QTY') {
+    if (action.type === 'INCREASE_QTY') {
         const idx = _.findIndex(state, ['id', action.data]);
         const item = state[idx];
-        if(item.qty >= 99) return state;
+        if (item.qty >= 99) return state;
         return [
             ...state.slice(0, idx),
             {
@@ -32,10 +32,10 @@ const cart = (state = [], action) => {
             ...state.slice(idx + 1)
         ]
     }
-    if(action.type === 'DECREASE_QTY') {
+    if (action.type === 'DECREASE_QTY') {
         const idx = _.findIndex(state, ['id', action.data]);
         const item = state[idx];
-        if(item.qty === 1) return state.filter(f => f.id !== action.data);
+        if (item.qty === 1) return state.filter(f => f.id !== action.data);
         return [
             ...state.slice(0, idx),
             {
@@ -45,11 +45,43 @@ const cart = (state = [], action) => {
             ...state.slice(idx + 1)
         ]
     }
+    if (action.type === 'CLEAR_CART') {
+        return [];
+    }
     return state;
 }
 
-const store = combineReducers({
+const reducers = combineReducers({
     cart,
 })
 
-export default createStore(store);
+const loadState = () => {
+    try {
+        const serializedState = localStorage.getItem('state');
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    } catch (err) {
+        return undefined;
+    }
+};
+
+const store = createStore(reducers, loadState());
+
+export const saveState = (state) => {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem('state', serializedState);
+    } catch {
+        // ignore write errors
+    }
+};
+
+store.subscribe(_.throttle(() => {
+    saveState({
+        cart: store.getState().cart
+    });
+}, 1000))
+
+export default store;

@@ -1,8 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { motion } from 'framer-motion';
 import EmptyPage from './EmptyPage';
 import CartItem from './CartItem';
+import { pageAnimation } from '../config';
 
 const Cart = (props) => {
     const history = useHistory();
@@ -26,14 +28,14 @@ const Cart = (props) => {
             </div>
         </div>
     }
-    return <div className="c-c c">
+    return <motion.div {...pageAnimation} className="c-c c">
         <div className="cs-h">
             <button onClick={history.goBack}><img src="/back.svg" alt="back" /> Cart</button>
         </div>
         <div className="cs-e">
             {render()}
         </div>
-    </div>
+    </motion.div>
 }
 
 const mapState = store => {

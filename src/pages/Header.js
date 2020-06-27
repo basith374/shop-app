@@ -3,11 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Image from './Image';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import { connect } from 'react-redux';
+import { motion } from 'framer-motion';
 import Error from './Error';
 import Loading from './Loading';
 import EmptyPage from './EmptyPage';
 import { followLink } from './Home';
-import { connect } from 'react-redux';
 
 export const SearchContext = React.createContext({})
 
@@ -52,12 +53,12 @@ const Search = (props) => {
         return search ? data.search.map(s => <SearchResult key={s.id} content={s} />) : null
     }
     return <div className="ss-c">
-        <div className="ss-h">
+        <motion.div initial={{ padding: 0 }} animate={{ padding: 15 }} className="ss-h">
             <div className="ss-i">
                 <input type="search" placeholder="Search" value={search} onChange={onSearch} />
                 <img src="/close.svg" alt="search" onClick={props.close} />
             </div>
-        </div>
+        </motion.div>
         <div className="ss-r">
             {render()}
         </div>
@@ -73,7 +74,7 @@ function Header(props) {
     }
     const { cart } = props;
     if(location.pathname === '/cart') return null;
-    return <div className="ph">
+    return <motion.div className="ph" initial={{ y: -60 }} animate={{ y: 0 }}>
         <div className="ph-l">
             <div onClick={() => history.push('/')}>Telyshopper</div>
         </div>
@@ -89,7 +90,7 @@ function Header(props) {
         {search && <SearchContext.Provider value={setSearch}>
             <Search close={() => setSearch(false)} />
         </SearchContext.Provider>}
-    </div>
+    </motion.div>
 }
 
 const mapState = store => {
