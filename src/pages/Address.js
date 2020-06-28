@@ -36,7 +36,7 @@ const Address = () => {
     const params = useParams();
     const id = parseInt(params.id, 10);
     // queries
-    const { error, loading, data } = useQuery(GET_ADDRESS);
+    const { data } = useQuery(GET_ADDRESS);
     const [ addAddress ] = useMutation(ADD_ADDRESS, {
         update(cache, { data: { addAddress }}) {
             const { addresses } = cache.readQuery({ query: GET_ADDRESSES })

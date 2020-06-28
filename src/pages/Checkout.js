@@ -66,13 +66,13 @@ const Checkout = (props) => {
     const { error, loading, data } = useQuery(GET_ADDRESSES);
     const [ addOrder ] = useMutation(PLACE_ORDER, {
         update(cache, { data: { addOrder }}) {
-            // const { orders } = cache.readQuery({ query: GET_ORDERS })
-            // cache.writeQuery({
-            //     query: GET_ORDERS,
-            //     data: { orders: orders.concat([ addOrder ]) }
-            // })
-            // props.clearCart();
-            // history.push('/orderplaced');
+            const { orders } = cache.readQuery({ query: GET_ORDERS })
+            cache.writeQuery({
+                query: GET_ORDERS,
+                data: { orders: orders.concat([ addOrder ]) }
+            })
+            props.clearCart();
+            history.push('/orderplaced');
         }
     });
     const history = useHistory();
