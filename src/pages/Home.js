@@ -14,7 +14,7 @@ export const followLink = (history, content) => {
   const { type } = link;
   if (type === 'category') history.push('/category/' + link.id);
   if (type === 'product') history.push('/product/' + link.id);
-  if (type === 'search') history.push('/search/' + link.word);
+  if (type === 'search') history.push('/searchview/' + link.word);
 }
 
 function BannerImage(props) {
@@ -70,12 +70,14 @@ function CardSlide(props) {
   </motion.div>
 }
 
+const HOMEPAGE = gql`
+  query {
+    setting(key: "Homepage")
+  }
+`
+
 function Home() {
-  const { error, loading, data } = useQuery(gql`
-    query {
-      setting(key: "Homepage")
-    }
-  `)
+  const { error, loading, data } = useQuery(HOMEPAGE)
   const [schema, setSchema] = useState([]);
   const renderSchema = (s, i) => {
     const props = { content: s, key: i }

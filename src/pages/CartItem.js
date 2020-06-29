@@ -1,16 +1,17 @@
 
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Image from './Image';
 import { increaseQty, decreaseQty } from '../store/actions';
 
 const CartItem = (props) => {
     const { item } = props;
+    const dispatch = useDispatch();
     const increment = () => {
-        props.increaseQty(item);
+        dispatch(increaseQty(item));
     }
     const decrement = () => {
-        props.decreaseQty(item);
+        dispatch(decreaseQty(item));
     }
     return <div className="cs-i">
         <div className="cs-p"><Image src={item.image} alt={item.name} /></div>
@@ -28,13 +29,4 @@ const CartItem = (props) => {
     </div>
 }
 
-const mapState = store => {
-    return {}
-}
-
-const actionCreators = {
-    increaseQty,
-    decreaseQty,
-}
-
-export default connect(mapState, actionCreators)(CartItem);
+export default CartItem;

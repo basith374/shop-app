@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { useHistory, useParams } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { motion  } from 'framer-motion';
 import _ from 'lodash';
 import Image from './Image';
@@ -30,8 +30,9 @@ const GET_PRODUCT = gql`
     }
 `
 
-const Product = (props) => {
-    const { cart } = props;
+const Product = () => {
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart);
     const history = useHistory();
     const params = useParams();
     const id = parseInt(params.id, 10);
@@ -48,13 +49,13 @@ const Product = (props) => {
         }
     }, [data]);
     const decreaseCount = () => {
-        props.decreaseQty(variant);
+        dispatch(decreaseQty(variant));
     }
     const increaseCount = () => {
-        props.increaseQty(variant);
+        dispatch(increaseQty(variant));
     }
     const onAdd = () => {
-        props.addToCart(data.product, variant);
+        dispatch(addToCart(data.product, variant));
     }
     const gotoCart = () => {
         history.push('/cart');
@@ -64,7 +65,7 @@ const Product = (props) => {
         const product = data.product
         const image = product.images[0];
         const singleVariant = product.variants.length === 1;
-        return <motion.div className="c-c" {...pageAnimation}>
+        return <motion.div className="c-c p" {...pageAnimation}>
             <div className="pp-c">
                 <div className="pp-x">{data.product.name}</div>
                 <div className="pp-i">
@@ -115,16 +116,4 @@ const Product = (props) => {
     return render()
 }
 
-const mapState = store => {
-    return {
-        cart: store.cart,
-    }
-}
-
-const actionCreators = {
-    addToCart,
-    increaseQty,
-    decreaseQty,
-}
-
-export default connect(mapState, actionCreators)(Product);
+export default Product;

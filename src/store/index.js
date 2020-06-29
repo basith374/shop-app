@@ -51,8 +51,19 @@ const cart = (state = [], action) => {
     return state;
 }
 
+const auth = (state = '', action) => {
+    if (action.type === 'SET_AUTH') {
+        return action.data;
+    }
+    if (action.type === 'LOGOUT') {
+        return '';
+    }
+    return state;
+}
+
 const reducers = combineReducers({
     cart,
+    auth,
 })
 
 const loadState = () => {
@@ -80,7 +91,8 @@ export const saveState = (state) => {
 
 store.subscribe(_.throttle(() => {
     saveState({
-        cart: store.getState().cart
+        cart: store.getState().cart,
+        auth: store.getState().auth,
     });
 }, 1000))
 

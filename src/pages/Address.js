@@ -6,6 +6,7 @@ import _ from 'lodash';
 import { gql } from 'apollo-boost';
 import { GET_ADDRESSES } from './Checkout';
 
+// requires auth
 const GET_ADDRESS = gql`
     query($id: Int!) {
         address(id: $id) {
@@ -17,6 +18,7 @@ const GET_ADDRESS = gql`
     }
 `
 
+// requires auth
 const ADD_ADDRESS = gql`
     mutation($address: String!, $locality: String!, $landmark: String!, $pincode: String!) {
         addAddress(streetAddress: $address, locality: $locality, landmark: $landmark, pincode: $pincode, name: "Default", type: "Home") {
@@ -25,6 +27,7 @@ const ADD_ADDRESS = gql`
     }
 `
 
+// requires auth
 const UPDATE_ADDRESS = gql`
     mutation($id: Int!, $address: String!, $locality: String!, $landmark: String!, $pincode: String!) {
         updateAddress(id: $id, streetAddress: $address, locality: $locality, landmark: $landmark, pincode: $pincode, name: "Default", type: "Home")

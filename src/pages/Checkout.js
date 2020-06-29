@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { motion } from 'framer-motion';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import Loading from './Loading';
 import Error from './Error';
@@ -22,6 +22,7 @@ const Address = (props) => {
     </div>
 }
 
+// requires auth
 export const GET_ADDRESSES = gql`
     query {
         addresses {
@@ -34,6 +35,7 @@ export const GET_ADDRESSES = gql`
     }
 `
 
+// requires auth
 const PLACE_ORDER = gql`
     mutation($address: Int!, $delivery: Float!, $items: [OrderItemInput!]!) {
         addOrder(AddressId: $address, deliveryCharge: $delivery, OrderItems: $items) {
@@ -42,6 +44,7 @@ const PLACE_ORDER = gql`
     }
 `
 
+// requires auth
 const GET_ORDERS = gql`
     query {
         orders {
@@ -62,7 +65,9 @@ const GET_ORDERS = gql`
     }
 `
 
-const Checkout = (props) => {
+const Checkout = () => {
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state.cart);
     const { error, loading, data } = useQuery(GET_ADDRESSES);
     const [ addOrder ] = useMutation(PLACE_ORDER, {
         update(cache, { data: { addOrder }}) {
@@ -71,26 +76,26 @@ const Checkout = (props) => {
                 query: GET_ORDERS,
                 data: { orders: orders.concat([ addOrder ]) }
             })
-            props.clearCart();
+            dispatch(clearCart());
             history.push('/orderplaced');
         }
     });
     const history = useHistory();
     const [address, setAddress] = useState();
-    const total = props.cart.reduce((c, i) => (i.qty * i.price) + c, 0);
+    const total = cart.reduce((c, i) => (i.qty * i.price) + c, 0);
     const addAddress = () => {
         history.push('/address');
     }
     const placeOrder = () => {
         console.log(typeof address)
-        props.cart.forEach(f => {
+        cart.forEach(f => {
             console.log(typeof f.id, typeof f.qty)
         })
         addOrder({
             variables: {
                 address,
                 delivery: 20,
-                items: props.cart.map(({ id, qty }) => ({ id, qty })),
+                items: cart.map(({ id, qty }) => ({ id, qty })),
             },
         })
     }
@@ -127,14 +132,4 @@ const Checkout = (props) => {
     </motion.div>
 }
 
-const mapState = store => {
-    return {
-        cart: store.cart
-    }
-}
-
-const actionCreators = {
-    clearCart
-}
-
-export default connect(mapState, actionCreators)(Checkout);
+export default Checkout;

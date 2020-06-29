@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { ApolloClient, InMemoryCache, ApolloLink } from 'apollo-boost';
 import { onError } from 'apollo-link-error';
 import { createHttpLink } from "apollo-link-http";
 import { AnimatePresence } from 'framer-motion';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import './App.css';
 
 import store from './store';
@@ -15,10 +15,13 @@ import Category from './pages/Category';
 import Product from './pages/Product';
 import Checkout from './pages/Checkout';
 import Header from './pages/Header';
-import Search from './pages/Search';
+import Search from './pages/Search2';
+import SearchView from './pages/SearchView';
 import Address from './pages/Address';
 import Login from './pages/Login';
 import OrderPlaced from './pages/OrderPlaced';
+import Footer from './pages/Footer';
+import Account from './pages/Account';
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
@@ -45,7 +48,14 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-function AuthPage() {
+function PrivateRoute({ children, ...rest }) {
+  const auth = useSelector(state => state.auth);
+  return <Route {...rest}
+    render={({ location }) => auth ? children : <Redirect to={{ pathname: '/login', state: { from: location }}} />}
+    />
+}
+
+function Content() {
   return <Router>
     <Header />
     <Switch>
@@ -58,12 +68,18 @@ function AuthPage() {
       <Route path="/address">
         <Address />
       </Route>
-      <Route path="/search/:str">
+      <Route path="/search">
         <Search />
       </Route>
-      <Route path="/checkout">
-        <Checkout />
+      <Route path="/searchview/:str">
+        <SearchView />
       </Route>
+      <Route path="/account">
+        <Account />
+      </Route>
+      <PrivateRoute path="/checkout">
+        <Checkout />
+      </PrivateRoute>
       <Route path="/product/:id">
         <Product />
       </Route>
@@ -73,27 +89,24 @@ function AuthPage() {
       <Route path="/cart">
         <Cart />
       </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
       <Route path="/">
         <Home />
       </Route>
     </Switch>
+    <Footer />
   </Router>
 }
 
 function App() {
-  const [auth, setAuth] = useState(localStorage.getItem('token') ? true : false);
-  const onLogin = (auth) => {
-    setAuth(auth);
-  }
-  const render = () => {
-    return auth ? <AuthPage /> : <Login onLogin={onLogin} />
-  }
   return (
     <div className="App">
       <Provider store={store}>
         <ApolloProvider client={client}>
           <AnimatePresence>
-            {render()}
+            <Content />
           </AnimatePresence>
         </ApolloProvider>
       </Provider>

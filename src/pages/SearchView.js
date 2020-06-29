@@ -8,20 +8,22 @@ import Loading from './Loading';
 import Error from './Error';
 import { staggerAnimation } from '../config';
 
+const SEARCH = gql`
+    query($str: String) {
+        search(str: $str) {
+            name
+            image
+            type
+            id
+        }
+    }
+`
+
 const Search = () => {
     const params = useParams();
     const { str } = params;
     const history = useHistory();
-    const { error, loading, data } = useQuery(gql`
-        query($str: String) {
-            search(str: $str) {
-                name
-                image
-                type
-                id
-            }
-        }
-    `, {
+    const { error, loading, data } = useQuery(SEARCH, {
         variables: { str }
     })
     const render = () => {

@@ -31,3 +31,17 @@ export function clearCart() {
         type: 'CLEAR_CART'
     }
 }
+
+export function setAuth(user) {
+    return {
+        type: 'SET_AUTH',
+        data: user
+    }
+}
+
+export function logout(user) {
+    return {
+        type: 'LOGOUT',
+        data: user
+    }
+}

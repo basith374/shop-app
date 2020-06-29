@@ -1,15 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import EmptyPage from './EmptyPage';
 import CartItem from './CartItem';
 import { pageAnimation } from '../config';
 
-const Cart = (props) => {
+const Cart = () => {
     const history = useHistory();
     const checkout = () => history.push('/checkout');
-    const { cart } = props;
+    const cart = useSelector(state => state.cart);
     const total = cart.reduce((c, i) => (i.qty * i.price) + c, 0);
     const render = () => {
         if(cart.length === 0) return <EmptyPage msg="Empty cart" />
@@ -38,10 +38,4 @@ const Cart = (props) => {
     </motion.div>
 }
 
-const mapState = store => {
-    return {
-        cart: store.cart
-    }
-}
-
-export default connect(mapState)(Cart);
+export default Cart
