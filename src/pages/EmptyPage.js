@@ -1,6 +1,7 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
-export default (props) => {
+function EmptyPage(props) {
     return <div className="emp">
         <div className="emp-c">
             <div className="emp-i err"><img src="/shine.svg" alt="Empty" /></div>
@@ -8,3 +9,9 @@ export default (props) => {
         </div>
     </div>
 }
+
+EmptyPage.propTypes = {
+    msg: PropTypes.string.isRequired,
+}
+
+export default EmptyPage;

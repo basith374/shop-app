@@ -4,6 +4,7 @@ import Image from './Image';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { motion } from 'framer-motion';
+import { PropTypes } from 'prop-types';
 import EmptyPage from './EmptyPage';
 import Error from './Error';
 import Loading from './Loading';
@@ -31,6 +32,10 @@ const ProductCard = (props) => {
             </div>
         </div>
     </motion.div>
+}
+
+ProductCard.propTypes = {
+    product: PropTypes.object.isRequired,
 }
 
 const GET_CATEGORY = gql`

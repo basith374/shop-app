@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import Image from './Image';
 import { increaseQty, decreaseQty } from '../store/actions';
 
@@ -27,6 +28,10 @@ const CartItem = (props) => {
             </div>
         </div>
     </div>
+}
+
+CartItem.propTypes = {
+    item: PropTypes.object.isRequired,
 }
 
 export default CartItem;

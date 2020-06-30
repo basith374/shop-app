@@ -195,6 +195,9 @@ common margins
   border-radius: 8px;
   color: #fff;
 }
+.cs-o button.red {
+  background: #ff6b6b;
+}
 .cs-b .cs-o {
   padding: 0 20px 20px;
 }
@@ -285,8 +288,10 @@ common margins
 /* product */
 .c-c.p {
   padding-top: 25px;
-  height: calc(100% - 60px);
-  position: relative;
+}
+.c-c.p .cs-b {
+  position: fixed;
+  bottom: 60px;
 }
 .pp-i {
   padding: 20px;
@@ -364,7 +369,7 @@ common margins
   padding: 15px;
   border: 2px solid #fff;
   position: relative;
-  height: 114px;
+  min-height: 114px;
 }
 .ad-a img {
   position: absolute;
@@ -597,10 +602,25 @@ common margins
   justify-content: center;
   align-items: center;
 }
-/* acconut */
+/* account */
 .ad-c .cs-o {
   padding-top: 15px;
 }
 .c-c.a {
   height: 100%;
+}
+/* orders */
+.ad-o {
+  display: flex;
+  margin-bottom: 5px;
+}
+.ad-ot {
+  flex: 1;
+}
+.ad-s {
+  margin-bottom: 10px;
+}
+.ad-r {
+  margin-bottom: 10px;
+  color: #777;
 }

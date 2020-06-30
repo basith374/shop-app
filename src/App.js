@@ -6,6 +6,7 @@ import { onError } from 'apollo-link-error';
 import { createHttpLink } from "apollo-link-http";
 import { AnimatePresence } from 'framer-motion';
 import { Provider, useSelector } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import './App.css';
 
 import store from './store';
@@ -22,6 +23,8 @@ import Login from './pages/Login';
 import OrderPlaced from './pages/OrderPlaced';
 import Footer from './pages/Footer';
 import Account from './pages/Account';
+import Addresses from './pages/Addresses';
+import Orders from './pages/Orders';
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
@@ -55,6 +58,10 @@ function PrivateRoute({ children, ...rest }) {
     />
 }
 
+PrivateRoute.propTypes = {
+  children: PropTypes.any,
+}
+
 function Content() {
   return <Router>
     <Header />
@@ -62,8 +69,14 @@ function Content() {
       <Route path="/orderplaced">
         <OrderPlaced />
       </Route>
-      <Route path="/address/:id/delete?">
+      <Route path="/orders">
+        <Orders />
+      </Route>
+      <Route path="/address/:id">
         <Address />
+      </Route>
+      <Route path="/addresses">
+        <Addresses />
       </Route>
       <Route path="/address">
         <Address />

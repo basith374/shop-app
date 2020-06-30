@@ -10,7 +10,7 @@ import EmptyPage from './EmptyPage';
 import Error from './Error';
 import Loading from './Loading';
 import { addToCart, increaseQty, decreaseQty } from '../store/actions';
-import { pageAnimation } from '../config';
+import { pageAnimator } from '../config';
 
 const GET_PRODUCT = gql`
     query($id: Int!) {
@@ -65,8 +65,8 @@ const Product = () => {
         const product = data.product
         const image = product.images[0];
         const singleVariant = product.variants.length === 1;
-        return <motion.div className="c-c p" {...pageAnimation}>
-            <div className="pp-c">
+        return <div className="c-c p">
+            <motion.div className="pp-c" {...pageAnimator(history)}>
                 <div className="pp-x">{data.product.name}</div>
                 <div className="pp-i">
                     <div className="pp-v">
@@ -92,8 +92,8 @@ const Product = () => {
                         <div>{product.description}</div>
                     </div>
                 </div>
-            </div>
-            <div className="cs-b">
+            </motion.div>
+            <motion.div className="cs-b" initial={{ y: 129 }} animate={{ y: 0 }}>
                 {variant && qty > 0 && <div className="cs-t">
                     <div className="cs-tl">
                         <div className="cs-q">
@@ -108,8 +108,8 @@ const Product = () => {
                     {inCart && <button onClick={gotoCart}>View Cart</button>}
                     {!inCart && <button onClick={onAdd}>Add to cart</button>}
                 </div>
-            </div>
-        </motion.div>
+            </motion.div>
+        </div>
     }
     if(error) return <Error msg="Something went wrong" />
     if(loading) return <Loading />

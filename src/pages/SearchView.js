@@ -36,7 +36,7 @@ const Search = () => {
                     const id = s.type === 'product' ? s.id : s.name;
                     history.push('/' + s.type + '/' + id);
                 }
-                return <motion.div {...staggerAnimation.child} className="pc-c" onClick={onClick}>
+                return <motion.div key={s.type + s.id} {...staggerAnimation.child} className="pc-c" onClick={onClick}>
                     <div className="pc-j">
                         <div className="pc-i">
                             <img src={s.image} alt={s.name} />

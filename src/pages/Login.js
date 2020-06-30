@@ -26,7 +26,7 @@ function Login(props) {
             localStorage.setItem('token', rsp.data.customerLogin);
             // localStorage.setItem('username', email);
             // props.onLogin(true);
-            dispatch(setAuth(true));
+            dispatch(setAuth({ name }));
             history.replace(from);
         })
     }

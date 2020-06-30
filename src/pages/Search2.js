@@ -4,6 +4,7 @@ import Image from './Image';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { motion } from 'framer-motion';
+import { PropTypes } from 'prop-types';
 import Error from './Error';
 import Loading from './Loading';
 import EmptyPage from './EmptyPage';
@@ -23,6 +24,10 @@ const SearchResult = (props) => {
     </div>
 }
 
+SearchResult.propTypes = {
+    content: PropTypes.object.isRequired,
+}
+
 const SEARCH = gql`
     query($str: String!) {
         search(str: $str) {
@@ -34,7 +39,7 @@ const SEARCH = gql`
     }
 `
 
-const Search = (props) => {
+const Search = () => {
     const [search, setSearch] = useState('');
     const { error, loading, data } = useQuery(SEARCH, {
         variables: { str: search },

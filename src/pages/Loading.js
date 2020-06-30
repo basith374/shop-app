@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default () => {
+function Loading() {
     return <div className="lds">
         <div className="spinner">
             <div className="double-bounce1"></div>
@@ -8,3 +8,5 @@ export default () => {
         </div>
     </div>
 }
+
+export default Loading;

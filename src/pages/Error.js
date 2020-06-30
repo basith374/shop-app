@@ -1,6 +1,7 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
-export default (props) => {
+function Error(props) {
     return <div className="emp">
         <div className="emp-c">
             <div className="emp-i"><img src="/error.svg" alt="Empty" /></div>
@@ -8,3 +9,9 @@ export default (props) => {
         </div>
     </div>
 }
+
+Error.propTypes = {
+    msg: PropTypes.string.isRequired,
+}
+
+export default Error;

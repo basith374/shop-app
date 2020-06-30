@@ -24,7 +24,16 @@ export const staggerAnimation = {
     }
 }
 
-export const pageAnimation = {
-    initial: { x: 200 },
-    animate: { x: 0 }
+export const pageAnimator = (history) => {
+    if(history.action === 'POP') {
+        return {
+            initial: { x: -200 },
+            animate: { x: 0 }
+        }
+    } else {
+        return {
+            initial: { x: 200 },
+            animate: { x: 0 }
+        }
+    }
 }

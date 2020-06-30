@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import Image from './Image';
 import { gql } from 'apollo-boost';
+import { PropTypes } from 'prop-types';
 import Error from './Error';
 import Loading from './Loading';
 import EmptyPage from './EmptyPage';
@@ -25,10 +26,18 @@ function BannerImage(props) {
   </div>
 }
 
+BannerImage.propTypes = {
+  content: PropTypes.object.isRequired,
+}
+
 function Banner(props) {
   return <motion.div {...staggerAnimation.child} className="b-c">
     <BannerImage content={props.content} />
   </motion.div>
+}
+
+Banner.propTypes = {
+  content: PropTypes.object.isRequired,
 }
 
 function Text(props) {
@@ -40,12 +49,20 @@ function Text(props) {
   </motion.div>
 }
 
+Text.propTypes = {
+  content: PropTypes.object.isRequired,
+}
+
 function BannerSlide(props) {
   return <motion.div {...staggerAnimation.child} className="b-h">
     <div className="b-c">
       {props.content.items.map((c, i) => <BannerImage key={i} content={c} />)}
     </div>
   </motion.div>
+}
+
+BannerSlide.propTypes = {
+  content: PropTypes.object.isRequired,
 }
 
 function Card(props) {
@@ -59,6 +76,10 @@ function Card(props) {
   </div>
 }
 
+Card.propTypes = {
+  content: PropTypes.object.isRequired,
+}
+
 function CardSlide(props) {
   return <motion.div {...staggerAnimation.child} className="cat">
     <div className="cat-t">{props.content.name}</div>
@@ -68,6 +89,10 @@ function CardSlide(props) {
       </div>
     </div>
   </motion.div>
+}
+
+CardSlide.propTypes = {
+  content: PropTypes.object.isRequired,
 }
 
 const HOMEPAGE = gql`

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import EmptyPage from './EmptyPage';
 import CartItem from './CartItem';
-import { pageAnimation } from '../config';
+import { pageAnimator } from '../config';
 
 const Cart = () => {
     const history = useHistory();
@@ -28,7 +28,7 @@ const Cart = () => {
             </div>
         </div>
     }
-    return <motion.div {...pageAnimation} className="c-c c">
+    return <motion.div {...pageAnimator(history)} className="c-c c">
         <div className="cs-h">
             <button onClick={history.goBack}><img src="/back.svg" alt="back" /> Cart</button>
         </div>
