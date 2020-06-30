@@ -1,12 +1,11 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 function Footer() {
     const cart = useSelector(state => state.cart);
     const history = useHistory();
     return <div className="pf">
-        <Link ></Link>
         <div className="pf-t" onClick={() => history.push('/')}>
             <button className="c-b">
                 <img src="/browser.svg" alt="search" />

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const OrderPlaced = () => {
-    return <div className="c-c">
+    return <div className="c-c ch">
         <div className="emp">
             <div >
                 <svg className="emp-i" width="200" viewBox="0 0 50 50">

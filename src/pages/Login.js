@@ -23,7 +23,7 @@ function Login(props) {
         login({
             variables: { token: rsp.tokenId, email, name }
         }).then(rsp => {
-            // localStorage.setItem('token', rsp.data.customerLogin);
+            localStorage.setItem('token', rsp.data.customerLogin);
             // localStorage.setItem('username', email);
             // props.onLogin(true);
             dispatch(setAuth(true));

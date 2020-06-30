@@ -40,15 +40,6 @@ const PLACE_ORDER = gql`
     mutation($address: Int!, $delivery: Float!, $items: [OrderItemInput!]!) {
         addOrder(AddressId: $address, deliveryCharge: $delivery, OrderItems: $items) {
             id
-        }
-    }
-`
-
-// requires auth
-const GET_ORDERS = gql`
-    query {
-        orders {
-            id
             total
             deliveryCharge
             address {
@@ -59,11 +50,40 @@ const GET_ORDERS = gql`
                 phoneno
             }
             status
-            items
+            items {
+                name
+                price
+                qty
+            }
             createdAt
         }
     }
 `
+
+// requires auth
+// const GET_ORDERS = gql`
+//     query {
+//         orders {
+//             id
+//             total
+//             deliveryCharge
+//             address {
+//                 id
+//                 streetAddress
+//                 locality
+//                 landmark
+//                 phoneno
+//             }
+//             status
+//             items {
+//                 name
+//                 price
+//                 qty
+//             }
+//             createdAt
+//         }
+//     }
+// `
 
 const Checkout = () => {
     const dispatch = useDispatch();
@@ -71,11 +91,11 @@ const Checkout = () => {
     const { error, loading, data } = useQuery(GET_ADDRESSES);
     const [ addOrder ] = useMutation(PLACE_ORDER, {
         update(cache, { data: { addOrder }}) {
-            const { orders } = cache.readQuery({ query: GET_ORDERS })
-            cache.writeQuery({
-                query: GET_ORDERS,
-                data: { orders: orders.concat([ addOrder ]) }
-            })
+            // const { orders } = cache.readQuery({ query: GET_ORDERS })
+            // cache.writeQuery({
+            //     query: GET_ORDERS,
+            //     data: { orders: orders.concat([ addOrder ]) }
+            // })
             dispatch(clearCart());
             history.push('/orderplaced');
         }
@@ -87,10 +107,6 @@ const Checkout = () => {
         history.push('/address');
     }
     const placeOrder = () => {
-        console.log(typeof address)
-        cart.forEach(f => {
-            console.log(typeof f.id, typeof f.qty)
-        })
         addOrder({
             variables: {
                 address,
@@ -108,7 +124,7 @@ const Checkout = () => {
             const { streetAddress } = curAddress;
             selectedAaddress = _.truncate('Deliver to ' + streetAddress, { length: 25 });
         }
-        return <motion.div initial={{ y: 129 }} animate={{ y: 0 }} className="cs-b">
+        return <motion.div initial={{ y: 129 }} animate={{ y: -60 }} className="cs-b">
             <div className="cs-t">
                 <div className="cs-tl">
                     {selectedAaddress}
@@ -120,7 +136,7 @@ const Checkout = () => {
             </div>
         </motion.div>
     }
-    return <motion.div {...pageAnimation} className="c-c">
+    return <motion.div {...pageAnimation} className="c-c ch">
         <div className="ad-c">
             <div className="ad-t">Select address</div>
             {data.addresses.map(a => <Address address={a} key={a.id} selected={address === a.id} setAddress={setAddress} />)}

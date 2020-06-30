@@ -341,6 +341,9 @@ common margins
   color: #555;
 }
 /* checkout */
+.c-c.ch {
+  height: 100%;
+}
 .ad-c {
   padding: 15px;
 }

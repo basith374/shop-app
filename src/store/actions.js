@@ -1,13 +1,14 @@
 export function addToCart(product, variant) {
-    const { images } = product;
-    const { id, price } = variant;
+    const { images, name } = product;
+    const { id, price, name: name2 } = variant;
     return {
         type: 'ADD_TO_CART',
         data: {
             id,
             price,
             qty: 1,
-            image: images[0].filename
+            image: images[0].filename,
+            name: name + ' - ' + name2,
         }
     }
 }
