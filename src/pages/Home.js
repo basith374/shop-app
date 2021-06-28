@@ -11,11 +11,15 @@ import { motion } from 'framer-motion';
 import { staggerAnimation } from '../config';
 
 export const followLink = (history, content) => {
-  const { link } = content;
-  const { type } = link;
-  if (type === 'category') history.push('/category/' + link.id);
-  if (type === 'product') history.push('/product/' + link.id);
-  if (type === 'search') history.push('/searchview/' + link.word);
+  let type = content.type;
+  let id = content.id;
+  if (content.link) {
+    type = content.link.type;
+    id = content.link.id;
+  }
+  if (type === 'category') history.push('/category/' + id);
+  if (type === 'product') history.push('/product/' + id);
+  if (type === 'search') history.push('/searchview/' + content.link.word);
 }
 
 function BannerImage(props) {
