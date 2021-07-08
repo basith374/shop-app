@@ -32,9 +32,7 @@ common margins
 .c-b {
   background: transparent;
   border: none;
-  /* background: #000; */
-  height: 40px;
-  width: 40px;
+  width: 25px;
   position: relative;
 }
 .c-b img {
