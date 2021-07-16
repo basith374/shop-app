@@ -50,7 +50,7 @@ const Search = () => {
         if(error) return <Error msg="Something went wrong" />
         if(loading) return <Loading />
         if(search && data.search.length === 0) return <EmptyPage msg="No results" />
-        return search ? data.search.map(s => <SearchResult key={s.id} content={s} />) : null
+        return search ? data.search.map(s => <SearchResult key={s.type + s.id} content={s} />) : null
     }
     return <div className="ss-c">
         <motion.div initial={{ padding: 0 }} animate={{ padding: 15 }} className="ss-h">
